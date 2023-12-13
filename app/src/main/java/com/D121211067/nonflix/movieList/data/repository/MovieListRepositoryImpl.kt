@@ -1,11 +1,16 @@
 package com.D121211067.nonflix.movieList.data.repository
 
 import com.D121211067.nonflix.movieList.data.local.movie.MovieDatabase
+import com.D121211067.nonflix.movieList.data.mappers.toMovie
+import com.D121211067.nonflix.movieList.data.mappers.toMovieEntity
 import com.D121211067.nonflix.movieList.data.remote.MovieApi
 import com.D121211067.nonflix.movieList.domain.model.Movie
 import com.D121211067.nonflix.movieList.domain.repository.MovieListRepository
 import com.D121211067.nonflix.movieList.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import okio.IOException
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class MovieListRepositoryImpl @Inject constructor(
@@ -18,10 +23,76 @@ class MovieListRepositoryImpl @Inject constructor(
         category: String,
         page: Int
     ): Flow<Resource<List<Movie>>> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(Resource.Loading(true))
+
+            val localMovieList = movieDatabase.movieDao.getMovieByCategory(category)
+
+            val shouldLoadLocalMovie = localMovieList.isNotEmpty() && !forceFetchFromRemote
+            if (shouldLoadLocalMovie) {
+                emit(Resource.Success(
+                    data = localMovieList.map { movieEntity ->
+                        movieEntity.toMovie(category)
+                    }
+                ))
+
+                emit(Resource.Loading(false))
+                return@flow
+            }
+
+            val movieListFromApi = try {
+                movieApi.getMoviesList(category, page)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error(message = "Error while loading movies"))
+                return@flow
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error(message = "Error while loading movies"))
+                return@flow
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emit(Resource.Error(message = "Error while loading movies"))
+                return@flow
+            }
+
+            val movieEntities = movieListFromApi.results.let {
+                it.map { movieDto ->
+                    movieDto.toMovieEntity(category)
+                }
+            }
+
+            movieDatabase.movieDao.upsertMovieList(movieEntities)
+
+            emit(Resource.Success(
+                movieEntities.map { it.toMovie(category) }
+            ))
+
+            emit(Resource.Loading(false))
+        }
     }
 
     override suspend fun getMovie(id: Int): Flow<Resource<Movie>> {
-        TODO("Not yet implemented")
+        return flow {
+
+            emit(Resource.Loading(true))
+
+            val movieEntity = movieDatabase.movieDao.getMovieById(id)
+
+            if (movieEntity != null) {
+                emit(
+                    Resource.Success(movieEntity.toMovie(movieEntity.category))
+                )
+
+                emit(Resource.Loading(false))
+                return@flow
+            }
+
+            emit(Resource.Error("Error no such movie"))
+
+            emit(Resource.Loading(false))
+
+
+        }
     }
 }
