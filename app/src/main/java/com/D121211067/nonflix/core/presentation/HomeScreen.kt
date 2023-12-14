@@ -3,7 +3,9 @@ package com.D121211067.nonflix.core.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Movie
@@ -23,8 +25,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,17 +61,13 @@ fun HomeScreen(navController: NavHostController) {
             TopAppBar(
                 title = {
                     Text(
-                        text = if (movieListState.isCurrentPopularScreen)
-                            stringResource(R.string.popular_movies)
-                        else
-                            stringResource(R.string.upcoming_movies),
-                        fontSize = 20.sp
+                        text = "Nonflix",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 32.sp,
+                        color = Color.Red
                     )
                 },
-                modifier = Modifier.shadow(2.dp),
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    MaterialTheme.colorScheme.inverseOnSurface
-                )
+                modifier = Modifier.shadow(2.dp)
             )
         }
     ) {
