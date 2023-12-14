@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.D121211067.nonflix.details.presentation.DetailsScreen
 import com.D121211067.nonflix.movieList.presentation.MovieListViewModel
 import com.D121211067.nonflix.movieList.util.Screen
 import com.D121211067.nonflix.ui.theme.NonflixTheme
@@ -52,8 +53,8 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(
                                 navArgument("movieId") { type = NavType.IntType }
                             )
-                        ) { backStackEntry ->
-//                            DetailsScreen(backStackEntry)
+                        ) {
+                            DetailsScreen()
                         }
                     }
 
