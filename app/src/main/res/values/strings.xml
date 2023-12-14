@@ -7,4 +7,5 @@
     <string name="language">"Language: "</string>
     <string name="votes">" Votes"</string>
     <string name="overview">Overview</string>
+    <string name="release_date">"Release date: "</string>
 </resources>
