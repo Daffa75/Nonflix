@@ -15,7 +15,7 @@ Movie information app that is built with Model-View-ViewModel (MVVM) design patt
 </ul>
 
 <h3>Screenshots</h3>
-![image](https://github.com/Daffa75/Nonflix/assets/79427579/1f741e73-d390-4dd6-b7da-bdda1a093bb2)
-![image](https://github.com/Daffa75/Nonflix/assets/79427579/22c6199c-5a96-4bac-8d3d-fb198a583369)
-![image](https://github.com/Daffa75/Nonflix/assets/79427579/bc7eac4c-eb49-43b6-8308-456065c7ebb1)
+<img src="https://github.com/Daffa75/Nonflix/assets/79427579/1f741e73-d390-4dd6-b7da-bdda1a093bb2" width="30%"/>
+<img src="https://github.com/Daffa75/Nonflix/assets/79427579/22c6199c-5a96-4bac-8d3d-fb198a583369" width="30%"/>
+<img src="https://github.com/Daffa75/Nonflix/assets/79427579/bc7eac4c-eb49-43b6-8308-456065c7ebb1" width="30%"/>
 
